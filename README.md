@@ -35,7 +35,7 @@ System Requirements
 How To Install
 ==============
 
-- [Download](https://github.com/TehCrucible/AnimePlus.bundle/archive/master.zip) the latest version of the plugin.
+- [Download](https://github.com/TehCrucible/AnimeToon.bundle/archive/master.zip) the latest version of the plugin.
 
 - Unzip and rename folder to "AnimeToon.bundle"
 
