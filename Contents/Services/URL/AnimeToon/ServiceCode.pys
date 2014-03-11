@@ -1,0 +1,102 @@
+######################################################################################
+
+BASE_URL = 'http://www.animetoon.tv'
+RE_VIDEOFUN = Regex('http://s(.*)(?=".\s)')
+RE_PLAY44 = Regex("http://.*gateway.*(?=')")
+RE_THUMB = Regex('http://videofun.me/frames/(.*)(?=".\s)')
+RE_CHEESE = Regex('http://stream.*(?=")')
+RE_VIDZUR = Regex("http://.*videos.*(?=')")
+RE_VIDEO44 = Regex('http://.*dl.*(?=")')
+RE_BYZOO = Regex("http://beta.*(?=')")
+ICON_COVER = "icon-cover.png"
+
+######################################################################################
+# Loads thumbnail from videofun iframe if available.
+
+def MetadataObjectForURL(url):
+	
+	ep_data = HTML.ElementFromURL(url)
+	show_data = HTML.ElementFromURL(ep_data.xpath("//div[@id='slink']/span/span/a/@href")[0])
+	ep_title = ep_data.xpath("//div[@id='top_block']/h1/text()")[0].strip()
+	show_thumb = show_data.xpath("//img[@id='series_image']/@src")[0]
+	show_genres = show_data.xpath("//span[@class='red_box']/a/text()")
+	
+	try:
+		show_rating = float(show_data.xpath("//span[@id='rating_num']/text()")[0])
+	except:
+		show_rating = 0.00
+	
+	try:
+		show_summary = show_data.xpath("//div[@class='right_col']/div/div[2]/div/span[2]/text()")[0].strip()
+	except:
+		try:
+			show_summary = show_data.xpath("//div[@id='series_details']/div[2]/div/text()")[0].strip()
+		except:
+			show_summary = show_data.xpath("//div[@id='series_details']/div/div/text()")[0].strip()
+	
+	return MovieObject(
+		title = ep_title,
+		thumb = Resource.ContentsOfURLWithFallback(url = show_thumb, fallback='icon-cover.png'),
+		summary = show_summary,
+		genres = show_genres,
+		rating = show_rating,
+		source_title = "AnimeToon.tv"
+		)
+
+######################################################################################
+# All videos vary in codec and must be transcoded
+
+@deferred
+def MediaObjectsForURL(url):
+	
+	page_data = HTML.ElementFromURL(url)
+	each = page_data.xpath("//div[@id='streams']//iframe/@src")[0]
+	
+	if each.find("videofun") >= 0:
+		page_data = HTMLElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		find_url = RE_VIDEOFUN.search(string_data).group()
+		url = String.Unquote(find_url, usePlus=False)
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])]
+
+	elif each.find("video44") >= 0:
+		page_data = HTML.ElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		find_url = RE_VIDEO44.search(string_data).group()
+		url = String.Unquote(find_url, usePlus=False)
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])]
+
+	elif each.find("cheesestream") >= 0:
+		page_data = HTML.ElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		url = RE_CHEESE.search(string_data).group()
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])]
+	
+	elif each.find("vidzur") >= 0:
+		page_data = HTML.ElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		find_url = RE_VIDZUR.search(string_data).group()
+		url = String.Unquote(find_url, usePlus=False)
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])]
+		
+	elif each.find("play44") >= 0:
+		page_data = HTML.ElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		find_url = RE_PLAY44.search(string_data).group()
+		url = String.Unquote(find_url, usePlus=False)
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])] 
+		
+	elif each.find("byzoo") >= 0:
+		page_data = HTML.ElementFromURL(each)
+		string_data = HTML.StringFromElement(page_data)
+		find_url = RE_BYZOO.search(string_data).group()
+		url = String.Unquote(find_url, usePlus=False)
+		Log(url)
+		return [MediaObject(parts = [PartObject(key = url)])]
+
+	
