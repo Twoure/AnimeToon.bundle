@@ -1,9 +1,9 @@
 About
 =====
 
-This is a plugin that creates a new channel in Plex Media Server to view content from the website AnimePlus.tv.  Includes search, bookmarks and the ability to browse alphabetically or by genre.
+This is a plugin that creates a new channel in Plex Media Server to view content from the website AnimeToon.tv.  Includes search, bookmarks and the ability to browse alphabetically or by genre.
 
-**Note:** The author of this plugin has no affiliation with AnimePlus.tv or the owners of the content that it hosts.
+**Note:** The author of this plugin has no affiliation with AnimeToon.tv or the owners of the content to which it links.
 
 System Requirements
 ===================
@@ -37,7 +37,7 @@ How To Install
 
 - [Download](https://github.com/TehCrucible/AnimePlus.bundle/archive/master.zip) the latest version of the plugin.
 
-- Unzip and rename folder to "AnimePlus.bundle"
+- Unzip and rename folder to "AnimeToon.bundle"
 
 - Copy AnimePlus.bundle into the PMS plugins directory under your user account:
 	- Windows 7, Vista, or Server 2008: C:\Users[Your Username]\AppData\Local\Plex Media Server\Plug-ins
@@ -49,12 +49,15 @@ How To Install
 Known Issues
 ============
 
-- Episode thumbnails are not consistent or slow to load.  This is due to AnimePlus.tv not displaying thumbs by default and needing to pull them from the video iframes.
+- Multi-part episodes cannot be stacked. Each part needs to be launched individually.
 
 
 Changelog
 =========
 
-**1.01** - 10/03/14 - Fixed multi-part episodes. Re-design assets.
+**0.01** - 11/01/14 - Initial release.
 
-**1.00** - 10/01/14 - Initial release.
+Donate
+======
+
+Like my work?  [Buy me a coffee.](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUV2JAVFXY86Q)  =)
