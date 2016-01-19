@@ -10,7 +10,7 @@
 			<string>com.plexapp.plugins.animetoon</string>
 			<key>URLPatterns</key>
 			<array>
-				<string>http://www.animetoon.tv/.+</string>
+				<string>https?\:\/\/www\.animetoon\.(?:[^/]+\/)?\/.+</string>
 			</array>
 		</dict>
 	</dict>
