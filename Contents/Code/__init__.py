@@ -290,21 +290,14 @@ def GetParts(ep_url):
 	page_data = HTML.ElementFromURL(ep_url)
 	ep_title = page_data.xpath("//div[@id='top_block']/h1/text()")[0].strip()
 
-	for each in page_data.xpath("//div[@class='vmargin'][1]/div[1]/ul[@class='part_list']/li/a"):
-		oc.add(VideoClipObject(
-			url = each.xpath("./@href")[0],
-			title = ep_title + " " + each.xpath("./text()")[0],
-			summary = "Watch " + ep_title + " from AnimeToon"
+	for each in page_data.xpath("//div[@id='streams']//iframe/@src"):
+		if not 'easyvideo.me' in each:
+			oc.add(VideoClipObject(
+				url = each,
+				title = "(" + each.split('/')[2].title() + ") " + ep_title,
+				summary = "Watch " + ep_title + " from AnimeToon"
+				)
 			)
-		)
-
-	if len(oc) < 1:
-		oc.add(VideoClipObject(
-			url = ep_url,
-			title = ep_title,
-			summary = "Watch " + ep_title + " from AnimeToon"
-			)
-		)
 	return oc
 
 ######################################################################################
