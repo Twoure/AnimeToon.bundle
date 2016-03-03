@@ -52,7 +52,7 @@ def PlayVideo(url, **kwargs):
 
         if file:
             video = get_redirect_url(file.group(1))
-            Log.Debug('PlayVideo URL   = %s' %video)
+            Log.Debug('PlayVideo URL    = %s' %video)
             return IndirectResponse(VideoClipObject, key=video)
 
     raise Ex.MediaNotAvailable
@@ -62,9 +62,9 @@ def get_redirect_url(rurl):
     """Expand Redirect URLs"""
 
     opener = urllib2.build_opener(urllib2.HTTPRedirectHandler)
-    request = opener.open(rurl)
+    request = opener.open(rurl, timeout=10)
 
-    return request.url
+    return request.geturl()
 
 ####################################################################################################
 """
