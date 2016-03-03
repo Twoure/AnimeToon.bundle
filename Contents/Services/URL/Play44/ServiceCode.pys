@@ -13,11 +13,12 @@ def NormalizeURL(url):
 ######################################################################################
 def MetadataObjectForURL(url):
 
-    title = url.split('/')[2].title()
+    title = url.split('/')[-1].replace('_', ' ').rsplit('.mp4', 1)[0].title()
+    source_title = url.split('/')[2].title()
 
     return VideoClipObject(
-        title=title,
-        source_title=title
+        title=title[3:] if title.startswith('At ') else title,
+        source_title=source_title
         )
 
 ######################################################################################
@@ -25,8 +26,11 @@ def MediaObjectsForURL(url):
 
     return [
         MediaObject(
+            container=Container.MP4,
             video_resolution='sd',
-            audio_channels = 2,
+            video_codec=VideoCodec.H264,
+            audio_codec=AudioCodec.AAC,
+            audio_channels=2,
             optimized_for_streaming=False,
             parts=[
                 PartObject(key=Callback(PlayVideo, url=url))
